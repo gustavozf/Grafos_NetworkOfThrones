@@ -5,7 +5,6 @@
  */
 package networkofthrones;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import networkofthrones.Grafo;
@@ -19,8 +18,6 @@ import java.util.List;
  */
 public class NetworkOfThrones {
 
-    private static final String fileArestas = "stormofswordsARESTAS.csv";
-    private static final String fileVertices = "stormofswordsVERTICES.csv";
     /**
      * @param args the command line arguments
      */
@@ -29,6 +26,7 @@ public class NetworkOfThrones {
         Grafo not = new Grafo();
         
         inicializacao(not);
+        //not.getPessoas();
         
     }
     
@@ -36,8 +34,8 @@ public class NetworkOfThrones {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        //List<Pessoas> Aux = new ArrayList(71);
-        //int i = 0;
+        String fileArestas = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/networkofthrones/stormofswordsARESTAS.csv";
+        String fileVertices = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/networkofthrones/stormofswordsVERTICES.csv";
         
         try {//inserir vertices
 
@@ -46,18 +44,8 @@ public class NetworkOfThrones {
                 not.addVertices(new Pessoas(line));
             }
 
-        } catch(FileNotFoundException e) { //caso de errado
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         
         line = "";
@@ -75,19 +63,9 @@ public class NetworkOfThrones {
 
             }
 
-        } catch(FileNotFoundException e) { //caso de errado
+        } catch(IOException e) { //caso de errado
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        
+        }  
     }
+    
 }

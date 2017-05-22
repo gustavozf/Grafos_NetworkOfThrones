@@ -26,9 +26,6 @@ public class Pessoas {//Vertices
             this.ligacoes.add(pessoay);//adiciona a pessoa a lista
             pessoay.addPessoa(pessoay, siMesma);//a pessoa adiciona a adicionada a sua lista
             //(nao orientado), logo ambas devem estar nas listas de adjacencia uma da outra
-        } else {
-            System.out.println("Aresta " + siMesma.getNome() +
-                            "<->"+pessoay.getNome()+" já existente!" );
         }
     }
     

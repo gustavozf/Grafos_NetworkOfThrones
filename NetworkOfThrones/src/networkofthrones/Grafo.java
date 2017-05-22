@@ -34,4 +34,13 @@ public class Grafo {
             }
         }
     }
+    
+    public void getPessoas(){
+        int i = 1;
+        
+        for(Pessoas p: this.listaPessoas){
+            System.out.println(p.getNome() + " #" + i);
+            i++;
+        }
+    }
 }
