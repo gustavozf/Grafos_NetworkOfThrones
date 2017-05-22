@@ -18,7 +18,10 @@ public class Grafo {
         this.listaPessoas = new ArrayList<>();
     }
     
-    public void addVertice(Pessoas pessoax){//adiciona um vertice ao grafo
+    //public void addVertices(List<Pessoas> pessoax){//adiciona um vertice ao grafo
+        //this.listaPessoas = pessoax;
+    
+    public void addVertices(Pessoas pessoax){
         if(!(this.listaPessoas.contains(pessoax))){
             this.listaPessoas.add(pessoax);
         }
