@@ -30,7 +30,11 @@ public class Grafo {
     public void addAresta(Pessoas pessoax, Pessoas pessoay){
         for(Pessoas aresta : this.listaPessoas){
             if(aresta.getNome().equals(pessoax.getNome())){
-                pessoax.addPessoa(pessoax, pessoay);
+                pessoax.addPessoa(pessoay);//Já que o grafo é nao orientado, uma pessoa
+                                          // deve estar adicionada na lista da outra
+            }
+            if(aresta.getNome().equals(pessoay.getNome())){
+                pessoay.addPessoa(pessoax);
             }
         }
     }

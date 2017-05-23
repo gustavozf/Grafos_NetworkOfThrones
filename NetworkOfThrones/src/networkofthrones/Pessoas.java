@@ -21,11 +21,9 @@ public class Pessoas {//Vertices
         this.ligacoes = new ArrayList<>();
     }
     
-    public void addPessoa(Pessoas siMesma, Pessoas pessoay){
+    public void addPessoa(Pessoas pessoay){
         if(!(this.ligacoes.contains(pessoay))){//caso a pessoa nao esteja ja inserida
             this.ligacoes.add(pessoay);//adiciona a pessoa a lista
-            pessoay.addPessoa(pessoay, siMesma);//a pessoa adiciona a adicionada a sua lista
-            //(nao orientado), logo ambas devem estar nas listas de adjacencia uma da outra
         }
     }
     

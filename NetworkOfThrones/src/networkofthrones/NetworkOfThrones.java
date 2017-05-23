@@ -34,8 +34,8 @@ public class NetworkOfThrones {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        String fileArestas = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/networkofthrones/stormofswordsARESTAS.csv";
-        String fileVertices = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/networkofthrones/stormofswordsVERTICES.csv";
+        String fileArestas = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswordsARESTAS.csv";
+        String fileVertices = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswordsVERTICES.csv";
         
         try {//inserir vertices
 
