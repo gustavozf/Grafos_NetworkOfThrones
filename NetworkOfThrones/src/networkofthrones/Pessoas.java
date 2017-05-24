@@ -13,11 +13,17 @@ import java.util.List;
 public class Pessoas {//Vertices
     private final String name;
     private  String cor;
+    private int low;
+    private int distancia;
+    private Pessoas predecessor;
     private  List<Pessoas> ligacoes;//Lista de adjacencia
     
     public Pessoas(String nome){
         this.name = nome;
         this.cor = "branco";
+        this.predecessor = null;
+        this.distancia = -1;
+        this.low = 0;
         this.ligacoes = new ArrayList<>();
     }
     
@@ -27,8 +33,28 @@ public class Pessoas {//Vertices
         }
     }
     
-    public void setCor(String cor){
-        this.cor = cor;
+    public void setCorCinza(){
+        this.cor = "cinza";
+    }
+    
+    public void setCorPreto(){
+        this.cor = "preto";
+    }
+    
+    public void setCorBranco(){
+        this.cor = "branco";
+    }
+    
+    public void setLow(int low){
+        this.low = low;
+    }
+    
+    public void setDistancia(int dist){
+        this.distancia = dist;
+    }
+    
+    public void setPredecessor(Pessoas pessoax){
+        this.predecessor = pessoax;
     }
     
     public String getCor(){
@@ -39,5 +65,15 @@ public class Pessoas {//Vertices
         return this.name;
     }
     
+    public int getLow(){
+        return this.low;
+    }
     
+    public int getDistancia(){
+        return this.distancia;
+    }
+    
+    public Pessoas getPredecessor(){
+        return this.predecessor;
+    }
 }
