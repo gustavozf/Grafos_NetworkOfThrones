@@ -39,12 +39,7 @@ public class Grafo {
         }
     }
     
-    public void getPessoas(){
-        int i = 1;
-        
-        for(Pessoas p: this.listaPessoas){
-            System.out.println(p.getNome() + " #" + i);
-            i++;
-        }
+    public List<Pessoas> getVertices(){
+        return this.listaPessoas;
     }
 }

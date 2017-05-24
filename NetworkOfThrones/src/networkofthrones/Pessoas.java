@@ -76,4 +76,8 @@ public class Pessoas {//Vertices
     public Pessoas getPredecessor(){
         return this.predecessor;
     }
+    
+    public List<Pessoas> getPessoas(){
+        return this.ligacoes;
+    }
 }
