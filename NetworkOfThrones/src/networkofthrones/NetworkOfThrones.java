@@ -26,22 +26,32 @@ public class NetworkOfThrones {
         Grafo not = new Grafo();
         
         inicializacao(not);
-        //not.getPessoas();
+        not.printaGrafo();
         
     }
     
+    @SuppressWarnings({"CallToPrintStackTrace", "UnusedAssignment"})
     public static void inicializacao(Grafo not){
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        String fileArestas = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswordsARESTAS.csv";
-        String fileVertices = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswordsVERTICES.csv";
+        String file = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswords.csv";
+        int i = 0;
+        int aux1 = 0, aux2 = 0;
         
         try {//inserir vertices
 
-            br = new BufferedReader(new FileReader(fileVertices));
-            while ((line = br.readLine()) != null) {
-                not.addVertices(new Pessoas(line));
+            br = new BufferedReader(new FileReader(file));
+            while ((line = br.readLine()) != null) { //le linha por linha do arquivo
+                String[] arestas = line.split(cvsSplitBy);
+                if(!not.Inserido(arestas[0])){//se ja nao estiver inserido
+                    not.addVertices(new Pessoas(arestas[0], i)); //adiciona a pessoa com o indice "i"
+                    i++;
+                }
+                if(!not.Inserido(arestas[1])){
+                    not.addVertices(new Pessoas(arestas[1], i)); //adiciona a pessoa com o indice "i"
+                    i++;
+                }
             }
 
         } catch (IOException e) {
@@ -53,12 +63,14 @@ public class NetworkOfThrones {
         
         try {//inserir arestas
 
-            br = new BufferedReader(new FileReader(fileArestas));
-            while ((line = br.readLine()) != null) {
+            br = new BufferedReader(new FileReader(file));
+            while ((line = br.readLine()) != null) {//le linha por linha do arquivo
 
                 // virgula eh o "separador"
                 String[] arestas = line.split(cvsSplitBy);
-                not.addAresta(new Pessoas(arestas[0]), new Pessoas(arestas[1]));
+                aux1 = achaIndex(arestas[0], not); //salva o index do nome encontrado
+                aux2 = achaIndex(arestas[1], not);//    ''                        ''
+                not.addAresta(new Pessoas(arestas[0], aux1), new Pessoas(arestas[1], aux2));
                 
 
             }
@@ -68,4 +80,15 @@ public class NetworkOfThrones {
         }  
     }
     
+    private static int achaIndex(String nomex, Grafo not){//acha os indices pelo nome
+        int aux = 0;
+        
+        for (Pessoas x : not.getVertices()){
+            if(x.getNome().equals(nomex)){
+                aux = x.getIndex();
+            }
+        }
+        
+        return aux;
+    }
 }

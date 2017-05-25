@@ -22,9 +22,7 @@ public class Grafo {
         //this.listaPessoas = pessoax;
     
     public void addVertices(Pessoas pessoax){
-        if(!(this.listaPessoas.contains(pessoax))){
             this.listaPessoas.add(pessoax);
-        }
     }
     
     public void addAresta(Pessoas pessoax, Pessoas pessoay){
@@ -41,5 +39,26 @@ public class Grafo {
     
     public List<Pessoas> getVertices(){
         return this.listaPessoas;
+    }
+    
+    public boolean Inserido(String nome){//Verifica se um nome ja se encontra no grafo
+        boolean bool = false;
+        
+        for(Pessoas x : this.listaPessoas){
+            if(x.getNome().equals(nome)){
+                bool = true;
+            }
+        }
+        
+        return bool;
+    }
+    
+    public void printaGrafo(){
+        for(Pessoas x:this.listaPessoas){
+            System.out.println(x.getNome() + " #" + x.getIndex() + " lista = ");
+            for(Pessoas y : x.getPessoas()){
+                System.out.println(y.getNome());
+            }
+        }
     }
 }

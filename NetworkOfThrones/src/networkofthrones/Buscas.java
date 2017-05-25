@@ -16,44 +16,59 @@ import java.util.Queue;
  * @author Neori
  */
 public class Buscas {
+    private List<Auxiliares> dicionario;
+    
+    public Buscas(){
+        dicionario = new ArrayList<>();
+    }
     
     public void inicializa(Grafo G, Pessoas s){
         for(Pessoas u : G.getVertices()){
-            u.setCorBranco();
-            u.setDistancia(0);
-            u.setPredecessor(null);
-            for(Pessoas x: u.getPessoas()){
-                x.setCorBranco();
-                x.setDistancia(0);
-                x.setPredecessor(null);
-            }
+            dicionario.add(new Auxiliares(u.getIndex()));//adiciona um objeto auxiliar para cada 
         }
-        s.setCorCinza();
-        s.setDistancia(0);
-        s.setPredecessor(null);
+        
+        dicionario.get(s.getIndex()).setCorCinza();//faz o dicionario na posicao s mudar a cor
+        dicionario.get(s.getIndex()).setDistancia(0);//distancia
+        dicionario.get(s.getIndex()).setPredecessor(-1);//predecessor
     }
     
     public void buscaLargura(Grafo G, Pessoas s){
+        Auxiliares aux = null;
         Pessoas u = null;
-        Queue<Pessoas> Q = new LinkedList();
+        Queue<Auxiliares> Q = new LinkedList();
         
         inicializa(G, s);
-        Q.add(s);
+        Q.add(dicionario.get(s.getIndex())); //adiciona o auxiliar na posicao do indice de s
         while(Q.size() != 0){
-            u = Q.remove();
+            aux = Q.remove();
+            u = achaPessoa(aux.getIndex(), G);
             for (Pessoas v : u.getPessoas()){
-                if (v.getCor().equals("branco")){
-                    v.setCorCinza();
-                    v.setDistancia(u.getDistancia()+1);
-                    v.setPredecessor(u);
-                    Q.add(v);
+                if (dicionario.get(v.getIndex()).getCor().equals("branco")){
+                    dicionario.get(v.getIndex()).setCorCinza();
+                    dicionario.get(v.getIndex()).setDistancia(dicionario.get(u.getIndex()).getDistancia()+1);
+                    //vai no dicionario na posicao onde v esta, e muda o predecessor, para o index
+                    //do dicionario na posicao de u
+                    dicionario.get(v.getIndex()).setPredecessor(dicionario.get(u.getIndex()).getIndex());
+                    Q.add(dicionario.get(v.getIndex()));
                 }
             }
-            u.setCorPreto();
+            dicionario.get(u.getIndex()).setCorPreto();
         }
     }
     
     public void printaDistancia(){
         
+    }
+    
+    private Pessoas achaPessoa(int index, Grafo not){//acha os indices pelo nome
+        Pessoas aux = null;
+        
+        for (Pessoas x : not.getVertices()){
+            if(x.getIndex() == index){
+                aux = x;
+            }
+        }
+        
+        return aux;
     }
 }
