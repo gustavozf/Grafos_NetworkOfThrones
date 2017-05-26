@@ -41,13 +41,15 @@ public class Buscas {
         while(Q.size() != 0){
             aux = Q.remove();
             u = achaPessoa(aux.getIndex(), G);
+            i = u.getIndex();
             for (Pessoas v : u.getPessoas()){
-                if (dicionario[v.getIndex()].getCor().equals("branco")){
-                    dicionario[v.getIndex()].setCorCinza();
-                    dicionario[v.getIndex()].setDistancia(dicionario[u.getIndex()].getDistancia()+1);
+                j = v.getIndex();
+                if (dicionario[j].getCor().equals("branco")){
+                    dicionario[j].setCorCinza();
+                    dicionario[j].setDistancia(dicionario[i].getDistancia()+1);
                     //vai no dicionario na posicao onde v esta, e muda o predecessor, para o index
                     //do dicionario na posicao de u
-                    dicionario[v.getIndex()].setPredecessor(u.getIndex());
+                    dicionario[j].setPredecessor(i);
                     Q.add(dicionario[v.getIndex()]);
                 }
             }
