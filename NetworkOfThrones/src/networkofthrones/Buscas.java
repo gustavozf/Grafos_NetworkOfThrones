@@ -22,10 +22,8 @@ public class Buscas {
     }
     
     public void inicializa(Grafo G, Pessoas s){
-        int i = 0;
         for(Pessoas u : G.getVertices()){
-            dicionario[i] = new Auxiliares(u.getIndex());//adiciona um objeto auxiliar para cada 
-            i++;
+            dicionario[u.getIndex()] = new Auxiliares(u.getIndex());//adiciona um objeto auxiliar para cada 
         }
         
         dicionario[s.getIndex()].setCorCinza();//faz o dicionario na posicao s mudar a cor
@@ -49,7 +47,7 @@ public class Buscas {
                     dicionario[v.getIndex()].setDistancia(dicionario[u.getIndex()].getDistancia()+1);
                     //vai no dicionario na posicao onde v esta, e muda o predecessor, para o index
                     //do dicionario na posicao de u
-                    dicionario[v.getIndex()].setPredecessor(dicionario[u.getIndex()].getIndex());
+                    dicionario[v.getIndex()].setPredecessor(u.getIndex());
                     Q.add(dicionario[v.getIndex()]);
                 }
             }
