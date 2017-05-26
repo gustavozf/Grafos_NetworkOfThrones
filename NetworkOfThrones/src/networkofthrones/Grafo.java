@@ -28,11 +28,11 @@ public class Grafo {
     public void addAresta(Pessoas pessoax, Pessoas pessoay){
         for(Pessoas aresta : this.listaPessoas){
             if(aresta.getNome().equals(pessoax.getNome())){
-                pessoax.addPessoa(pessoay);//Já que o grafo é nao orientado, uma pessoa
+                aresta.addPessoa(pessoay);//Já que o grafo é nao orientado, uma pessoa
                                           // deve estar adicionada na lista da outra
             }
             if(aresta.getNome().equals(pessoay.getNome())){
-                pessoay.addPessoa(pessoax);
+                aresta.addPessoa(pessoax);
             }
         }
     }
@@ -55,10 +55,11 @@ public class Grafo {
     
     public void printaGrafo(){
         for(Pessoas x:this.listaPessoas){
-            System.out.println(x.getNome() + " #" + x.getIndex() + " lista = ");
+            System.out.print(x.getNome() + " #" + x.getIndex() + " lista = ");
             for(Pessoas y : x.getPessoas()){
-                System.out.println(y.getNome());
+                System.out.printf(" %s ", y.getNome());
             }
+            System.out.println();
         }
     }
 }

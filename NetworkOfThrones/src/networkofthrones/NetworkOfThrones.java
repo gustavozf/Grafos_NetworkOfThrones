@@ -35,7 +35,7 @@ public class NetworkOfThrones {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        String file = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/stormofswords.csv";
+        String file = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/teste.csv";
         int i = 0;
         int aux1 = 0, aux2 = 0;
         
