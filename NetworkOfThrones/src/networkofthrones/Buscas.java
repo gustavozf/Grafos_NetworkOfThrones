@@ -35,6 +35,7 @@ public class Buscas {
         Auxiliares aux = null;
         Pessoas u = null;
         Queue<Auxiliares> Q = new LinkedList();
+        int i = 0, j = 0;
         
         inicializa(G, s);
         Q.add(dicionario[s.getIndex()]); //adiciona o auxiliar na posicao do indice de s
