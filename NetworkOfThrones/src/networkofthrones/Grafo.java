@@ -55,7 +55,7 @@ public class Grafo {
     
     public void printaGrafo(){
         for(Pessoas x:this.listaPessoas){
-            System.out.print(x.getNome() + " #" + x.getIndex() + " lista = ");
+            System.out.print(x.getNome() + " #" + x.getIndex() + " / Lista = ");
             for(Pessoas y : x.getPessoas()){
                 System.out.printf(" %s ", y.getNome());
             }

@@ -15,6 +15,8 @@ public class Auxiliares {
     private int distancia;
     private int predecessor;
     private int index;
+    private int descoberta;
+    private int termino;
     
     public Auxiliares(int index){
         this.cor = "branco";
@@ -22,6 +24,8 @@ public class Auxiliares {
         this.distancia = -1;
         this.low = 0;
         this.index = index;
+        this.descoberta = 0;
+        this.termino = 0;
     }
     
     public void setCorCinza(){
@@ -48,6 +52,14 @@ public class Auxiliares {
         this.predecessor = pessoaIndex;
     }
     
+    public void setDescoberta(int desc){
+        this.descoberta = desc;
+    }
+    
+    public void setTermino(int term){
+        this.termino = term;
+    }
+    
     public String getCor(){
         return this.cor;
     }
@@ -66,5 +78,13 @@ public class Auxiliares {
     
     public int getIndex(){
         return this.index;
+    }
+    
+    public int getDescoberta(){
+        return this.descoberta;
+    }
+    
+    public int getTermino(){
+        return this.termino;
     }
 }

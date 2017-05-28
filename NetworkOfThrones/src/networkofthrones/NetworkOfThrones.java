@@ -11,6 +11,8 @@ import networkofthrones.Grafo;
 import networkofthrones.Pessoas;
 import java.util.ArrayList;
 import java.util.List;
+import networkofthrones.Buscas;
+import java.util.Scanner;
 
 /**
  *
@@ -24,10 +26,47 @@ public class NetworkOfThrones {
     public static void main(String[] args) {
         // TODO code application logic here
         Grafo not = new Grafo();
+        Buscas buscas;
+        Scanner scan = new Scanner(System.in);
+        int escolha = 1;
         
         inicializacao(not);
-        not.printaGrafo();
+        buscas = new Buscas(not);
         
+        System.out.println("Bem vindo ao grafo, onde 2/3 dos personagens provavelmente"
+                + " ja estao mortos!\n");
+        while(escolha != 0){
+            System.out.println("1 - Printar o Grafo\n2 - Consultar Distancia\n3 - Consultar Pontes\n"
+                    + "4 - Consultar Pontos de Articulacao\n0 - Sair");
+            System.out.print(">");
+            escolha = scan.nextInt();
+            System.out.println();
+            switch(escolha){
+                case 1: 
+                        not.printaGrafo();
+                        System.out.println();
+                        break;
+                
+                case 2: 
+                        buscas.consultaDistancia(not);
+                        System.out.println();
+                        break;
+                
+                case 3: 
+                        buscas.encontraPontes(not);
+                        System.out.println();
+                        break;
+                  
+                case 4: 
+                        System.out.println();
+                        break;
+                        
+                default:
+                        System.out.println("THE WHITE WALKERS ARE COMING");
+                        break;
+            }
+            
+        }
     }
     
     @SuppressWarnings({"CallToPrintStackTrace", "UnusedAssignment"})
