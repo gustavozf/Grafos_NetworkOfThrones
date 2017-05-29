@@ -94,13 +94,13 @@ public class Buscas {
         this.tempo.zeraTempo();//zera o tempo
         for(Pessoas u: not.getVertices()){
             if (dicionario[u.getIndex()].getCor().equals("branco")){
-                DFS(u);
+                DFS(u, not);
             }
         }
         printaAuxiliares(not);
     }
     
-    public void DFS(Pessoas u){
+    public void DFS(Pessoas u, Grafo not){
         Auxiliares u1, v1;
         this.tempo.incrementa();
         u1 = dicionario[u.getIndex()];
@@ -110,7 +110,7 @@ public class Buscas {
             v1 = dicionario[v.getIndex()];
             if (v1.getCor().equals("branco")){
                 v1.setPredecessor(u.getIndex());
-                DFS(v);
+                DFS(not.getVertices().get(v1.getIndex()), not);
             }
         }
         u1.setCorPreto();
@@ -119,6 +119,9 @@ public class Buscas {
     }
     
     public void encontraPontos(Grafo not){
+        Pessoas pesAux = new Pessoas("Aux", -1);//utilizar como vetor auxiliar para adicionar
+        //os pontos de ariticulacao (ja que este mesmo insere somente se nao estiver ja adicionado
+        
         for(Pessoas u: not.getVertices()){
             dicionario[u.getIndex()].setCorBranco();
             dicionario[u.getIndex()].setPredecessor(-1);//NULL
@@ -126,13 +129,16 @@ public class Buscas {
         this.tempo.zeraTempo();//zera o tempo
         for(Pessoas u: not.getVertices()){
             if (dicionario[u.getIndex()].getCor().equals("branco")){
-                pontoArticulacao(u);
+                pontoArticulacao(u, not, pesAux);
             }
         }
-        printaAuxiliares(not);
+        //printaAuxiliares(not);
+        for(Pessoas x : pesAux.getPessoas()){
+            System.out.println(x.getNome() + " eh ponto de articulacao! (Indice #" + x.getIndex() + ")");
+        }
     }
     
-    private void pontoArticulacao(Pessoas u){
+    private void pontoArticulacao(Pessoas u, Grafo not, Pessoas pesAux){
        Auxiliares u1, v1;
        u1 = dicionario[u.getIndex()];
        
@@ -144,15 +150,17 @@ public class Buscas {
            v1 = dicionario[v.getIndex()];
            if(v1.getCor().equals("branco")){
                v1.setPredecessor(u.getIndex());
-               pontoArticulacao(v);
+               pontoArticulacao(not.getVertices().get(v1.getIndex()), not, pesAux);
                if(u1.getPredecessor() == -1){
                    if(u.getPessoas().size() > 1){
-                       System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
+                       //System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
+                       pesAux.addPessoa(u);
                    }
                 } else {
                    u1.setLow(min(u1.getLow(), v1.getLow()));
                    if(v1.getLow() >= u1.getDescoberta()){
-                       System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
+                       pesAux.addPessoa(u);
+                       //System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
                    }
                }
            } else {
@@ -174,20 +182,14 @@ public class Buscas {
         this.tempo.zeraTempo();//zera o tempo
         for(Pessoas u: not.getVertices()){
             if (dicionario[u.getIndex()].getCor().equals("branco")){
-                bridges(u);
+                bridges(u, not);
             }
         }
         
-        
-        /*for(Pessoas u: not.getVertices()){
-            System.out.printf("Pessoa %s / u.d= %d / u.f= %d / low= %d\n", u.getNome(),
-                    dicionario[u.getIndex()].getDescoberta(), dicionario[u.getIndex()].getTermino(), 
-                    dicionario[u.getIndex()].getLow());
-        }*/
-        printaAuxiliares(not);
+        //printaAuxiliares(not);
     }
     
-    private void bridges(Pessoas u){
+    private void bridges(Pessoas u, Grafo not){
         this.tempo.incrementa();
         Auxiliares u1, v1;
         u1 = dicionario[u.getIndex()];
@@ -198,7 +200,7 @@ public class Buscas {
             v1 = dicionario[v.getIndex()];
             if (v1.getCor().equals("branco")){
                 v1.setPredecessor(u.getIndex());
-                bridges(v);
+                bridges(not.getVertices().get(v1.getIndex()), not);
                 u1.setLow(min(u1.getLow(), v1.getLow()));
                 if((v1.getLow()) > (u1.getDescoberta())){
                     System.out.println(u.getNome() + " / " + v.getNome() + " eh ponte! (Indices #" + u.getIndex() + " e #" + v.getIndex() + ")");
@@ -211,7 +213,6 @@ public class Buscas {
         }
         u1.setCorPreto();
         this.tempo.incrementa();
-        //System.out.println("Tempo: " + this.tempo.getTempo());
         u1.setTermino(this.tempo.getTempo());
     }
     
