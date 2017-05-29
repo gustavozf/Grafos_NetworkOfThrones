@@ -4,13 +4,10 @@
  * and open the template in the editor.
  */
 package networkofthrones;
-import networkofthrones.Grafo;
-import networkofthrones.Pessoas;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -18,10 +15,12 @@ import java.util.Scanner;
  */
 public class Buscas {
     private Auxiliares[] dicionario;
+    private Tempo tempo;
     
     public Buscas(Grafo not){
+        tempo = new Tempo();
         dicionario = new Auxiliares[not.getVertices().size()];
-        for(Pessoas u : not.getVertices()){
+        for(Pessoas u : not.getVertices()){//not = Network of Thrones
             dicionario[u.getIndex()] = new Auxiliares(u.getIndex());//adiciona um objeto auxiliar para cada 
         }
     }
@@ -87,43 +86,133 @@ public class Buscas {
         }
     }
     
-    public void encontraPontes(Grafo not){
-        Tempo tempo;
-        
+    public void buscaProfundidade(Grafo not){
         for(Pessoas u: not.getVertices()){
             dicionario[u.getIndex()].setCorBranco();
-            dicionario[u.getIndex()].setDistancia(-1);
+            dicionario[u.getIndex()].setPredecessor(-1);//NULL
         }
-        tempo = new Tempo();
+        this.tempo.zeraTempo();//zera o tempo
         for(Pessoas u: not.getVertices()){
             if (dicionario[u.getIndex()].getCor().equals("branco")){
-                briges(tempo, u);
+                DFS(u);
+            }
+        }
+        printaAuxiliares(not);
+    }
+    
+    public void DFS(Pessoas u){
+        Auxiliares u1, v1;
+        this.tempo.incrementa();
+        u1 = dicionario[u.getIndex()];
+        u1.setCorCinza();
+        u1.setDescoberta(this.tempo.getTempo());
+        for(Pessoas v : u.getPessoas()){
+            v1 = dicionario[v.getIndex()];
+            if (v1.getCor().equals("branco")){
+                v1.setPredecessor(u.getIndex());
+                DFS(v);
+            }
+        }
+        u1.setCorPreto();
+        this.tempo.incrementa();
+        u1.setTermino(this.tempo.getTempo());
+    }
+    
+    public void encontraPontos(Grafo not){
+        for(Pessoas u: not.getVertices()){
+            dicionario[u.getIndex()].setCorBranco();
+            dicionario[u.getIndex()].setPredecessor(-1);//NULL
+        }
+        this.tempo.zeraTempo();//zera o tempo
+        for(Pessoas u: not.getVertices()){
+            if (dicionario[u.getIndex()].getCor().equals("branco")){
+                pontoArticulacao(u);
+            }
+        }
+        printaAuxiliares(not);
+    }
+    
+    private void pontoArticulacao(Pessoas u){
+       Auxiliares u1, v1;
+       u1 = dicionario[u.getIndex()];
+       
+       this.tempo.incrementa();
+       u1.setCorCinza();
+       u1.setLow(this.tempo.getTempo());
+       u1.setDescoberta(this.tempo.getTempo());
+       for (Pessoas v : u.getPessoas()){
+           v1 = dicionario[v.getIndex()];
+           if(v1.getCor().equals("branco")){
+               v1.setPredecessor(u.getIndex());
+               pontoArticulacao(v);
+               if(u1.getPredecessor() == -1){
+                   if(u.getPessoas().size() > 1){
+                       System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
+                   }
+                } else {
+                   u1.setLow(min(u1.getLow(), v1.getLow()));
+                   if(v1.getLow() >= u1.getDescoberta()){
+                       System.out.println(u.getNome() + " eh ponto de articulacao! (Indice #" + u.getIndex() + ")");
+                   }
+               }
+           } else {
+               if((v.getIndex() != u1.getPredecessor()) && (v1.getDescoberta() < u1.getDescoberta())){
+                   u1.setLow(min(u1.getLow(), v1.getDescoberta()));
+               }
+           }
+       }
+       u1.setCorPreto();
+       this.tempo.incrementa();
+       u1.setTermino(this.tempo.getTempo());
+    }
+    
+    public void encontraPontes(Grafo not){
+        for(Pessoas u: not.getVertices()){
+            dicionario[u.getIndex()].setCorBranco();
+            dicionario[u.getIndex()].setPredecessor(-1);//NULL
+        }
+        this.tempo.zeraTempo();//zera o tempo
+        for(Pessoas u: not.getVertices()){
+            if (dicionario[u.getIndex()].getCor().equals("branco")){
+                bridges(u);
             }
         }
         
+        
+        /*for(Pessoas u: not.getVertices()){
+            System.out.printf("Pessoa %s / u.d= %d / u.f= %d / low= %d\n", u.getNome(),
+                    dicionario[u.getIndex()].getDescoberta(), dicionario[u.getIndex()].getTermino(), 
+                    dicionario[u.getIndex()].getLow());
+        }*/
+        printaAuxiliares(not);
     }
     
-    private void briges(Tempo tempo, Pessoas u){
-        tempo.incrementa();
-        dicionario[u.getIndex()].setCorCinza();
-        dicionario[u.getIndex()].setLow(tempo.getTempo());
-        dicionario[u.getIndex()].setDescoberta(tempo.getTempo());
+    private void bridges(Pessoas u){
+        this.tempo.incrementa();
+        Auxiliares u1, v1;
+        u1 = dicionario[u.getIndex()];
+        u1.setCorCinza();
+        u1.setLow(this.tempo.getTempo());
+        u1.setDescoberta(this.tempo.getTempo());
         for(Pessoas v : u.getPessoas()){
-            dicionario[v.getIndex()].setPredecessor(u.getIndex());
-            briges(tempo, v);
-            dicionario[u.getIndex()].setLow(Math.min(dicionario[u.getIndex()].getLow(), dicionario[v.getIndex()].getLow()));
-            if((dicionario[v.getIndex()].getLow()) > (dicionario[u.getIndex()].getDescoberta())){
-                System.out.println(u.getNome() + " / " + v.getNome() + " eh ponte! (Indices #" + u.getIndex() + " e #" + v.getIndex() + ")");
+            v1 = dicionario[v.getIndex()];
+            if (v1.getCor().equals("branco")){
+                v1.setPredecessor(u.getIndex());
+                bridges(v);
+                u1.setLow(min(u1.getLow(), v1.getLow()));
+                if((v1.getLow()) > (u1.getDescoberta())){
+                    System.out.println(u.getNome() + " / " + v.getNome() + " eh ponte! (Indices #" + u.getIndex() + " e #" + v.getIndex() + ")");
+                } 
             } else {
-                if ((v.getIndex() != dicionario[u.getIndex()].getPredecessor()) && 
-                        (dicionario[v.getIndex()].getDescoberta() < dicionario[u.getIndex()].getDescoberta())){
-                    dicionario[u.getIndex()].setLow(Math.min(dicionario[u.getIndex()].getLow(), dicionario[v.getIndex()].getDescoberta()));
+                if ((v.getIndex() != u1.getPredecessor()) && (v1.getDescoberta() < u1.getDescoberta())){
+                        u1.setLow(min(u1.getLow(), v1.getDescoberta()));
                 }
             }
         }
-        dicionario[u.getIndex()].setCorPreto();
-        tempo.incrementa();
-        dicionario[u.getIndex()].setTermino(tempo.getTempo());
+        u1.setCorPreto();
+        this.tempo.incrementa();
+        //System.out.println("Tempo: " + this.tempo.getTempo());
+        u1.setTermino(this.tempo.getTempo());
     }
     
     private Pessoas achaPessoaIndex(int index, Grafo not){//acha o objeto pessoa pelo indice 
@@ -137,7 +226,7 @@ public class Buscas {
         return aux;
     }
     
-    private Pessoas achaPessoaNome (Grafo not, String nome){
+    private Pessoas achaPessoaNome (Grafo not, String nome){//acha o objeto pelo nome
         Pessoas aux = null;
         
         for (Pessoas x : not.getVertices()){
@@ -147,5 +236,22 @@ public class Buscas {
         }
         
         return aux;
+    }
+    
+    private void printaAuxiliares(Grafo not){
+        Auxiliares u1;
+        for(Pessoas x : not.getVertices()){
+            u1 = dicionario[x.getIndex()];
+            System.out.println("#" + u1.getIndex() + " " + x.getNome() 
+                    + " u.d=" + u1.getDescoberta()+ " u.f=" + u1.getTermino());
+        }
+    }
+    
+    private int min(int x, int y){
+        if (x < y){
+            return x;
+        } else {
+            return y;
+        }
     }
 }

@@ -17,11 +17,14 @@ public class Tempo {
     }
     
     public void incrementa(){
-        this.tempo += 1;
+        this.tempo++;
     }
     
     public int getTempo(){
         return this.tempo;
     }
     
+    public void zeraTempo(){
+        this.tempo = 0;
+    }
 }

@@ -20,8 +20,8 @@ public class Auxiliares {
     
     public Auxiliares(int index){
         this.cor = "branco";
-        this.predecessor = -1;
-        this.distancia = -1;
+        this.predecessor = -1;//null
+        this.distancia = -1;//null
         this.low = 0;
         this.index = index;
         this.descoberta = 0;

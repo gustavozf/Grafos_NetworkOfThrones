@@ -7,11 +7,6 @@ package networkofthrones;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import networkofthrones.Grafo;
-import networkofthrones.Pessoas;
-import java.util.ArrayList;
-import java.util.List;
-import networkofthrones.Buscas;
 import java.util.Scanner;
 
 /**
@@ -37,7 +32,7 @@ public class NetworkOfThrones {
                 + " ja estao mortos!\n");
         while(escolha != 0){
             System.out.println("1 - Printar o Grafo\n2 - Consultar Distancia\n3 - Consultar Pontes\n"
-                    + "4 - Consultar Pontos de Articulacao\n0 - Sair");
+                    + "4 - Consultar Pontos de Articulacao\n5 - Busca em Profundidade\n0 - Sair");
             System.out.print(">");
             escolha = scan.nextInt();
             System.out.println();
@@ -58,9 +53,14 @@ public class NetworkOfThrones {
                         break;
                   
                 case 4: 
+                        buscas.encontraPontos(not);
                         System.out.println();
                         break;
                         
+                case 5:
+                        buscas.buscaProfundidade(not);
+                        System.out.println();
+                        break;
                 default:
                         System.out.println("THE WHITE WALKERS ARE COMING");
                         break;
@@ -74,7 +74,7 @@ public class NetworkOfThrones {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        String file = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/teste.csv";
+        String file = "/home/gustavozf/NetBeansProjects/NetworkOfThrones/src/CSVs/teste1.csv";
         int i = 0;
         int aux1 = 0, aux2 = 0;
         
